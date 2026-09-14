@@ -22,6 +22,12 @@ jobs:
           gh repo clone "$p/$r" .deps/infra -- --depth=1 --branch "$b"
           test "$(git -C .deps/infra rev-parse HEAD)" = "$s"
           printf '%s\n' "$s" >/tmp/infra-sha
+          {
+            echo "### Exact production infra tip"
+            echo "- repository: \`$p/$r\`"
+            echo "- branch: \`$b\`"
+            echo "- SHA: \`$s\`"
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Test 2 - declared modules, environments, and state boundaries are coherent
         shell: bash
         run: |
